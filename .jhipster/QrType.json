@@ -1,0 +1,42 @@
+{
+    "fluentMethods": true,
+    "relationships": [],
+    "fields": [
+        {
+            "fieldName": "qrTypeName",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "qrTypeTable",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "qrTypeIdfield",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "qrTypeNamefield",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "qrTypeReptype",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "qrTypeUrl",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "qrTypeCttime",
+            "fieldType": "ZonedDateTime"
+        },
+        {
+            "fieldName": "qrTypeStatus",
+            "fieldType": "String"
+        }
+    ],
+    "dto": "no",
+    "service": "serviceImpl",
+    "entityTableName": "qr_type",
+    "pagination": "pagination"
+}

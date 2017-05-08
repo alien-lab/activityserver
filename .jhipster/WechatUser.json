@@ -1,0 +1,38 @@
+{
+    "fluentMethods": true,
+    "relationships": [],
+    "fields": [
+        {
+            "fieldName": "wechatUnionid",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "wechatNickname",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "wechatImage",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "wechatArea",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "userType",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "wechatOpenid",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "wechatQrkey",
+            "fieldType": "String"
+        }
+    ],
+    "dto": "no",
+    "service": "serviceImpl",
+    "entityTableName": "wechat_user",
+    "pagination": "pagination"
+}

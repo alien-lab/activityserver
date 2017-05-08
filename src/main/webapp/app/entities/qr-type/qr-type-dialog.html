@@ -1,0 +1,78 @@
+
+<form name="editForm" role="form" novalidate ng-submit="vm.save()">
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                ng-click="vm.clear()">&times;</button>
+        <h4 class="modal-title" id="myQrTypeLabel">Create or edit a Qr Type</h4>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" ng-show="vm.qrType.id">
+            <label for="id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                    ng-model="vm.qrType.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_qrTypeName">Qr Type Name</label>
+            <input type="text" class="form-control" name="qrTypeName" id="field_qrTypeName"
+                    ng-model="vm.qrType.qrTypeName"
+                     />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_qrTypeTable">Qr Type Table</label>
+            <input type="text" class="form-control" name="qrTypeTable" id="field_qrTypeTable"
+                    ng-model="vm.qrType.qrTypeTable"
+                     />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_qrTypeIdfield">Qr Type Idfield</label>
+            <input type="text" class="form-control" name="qrTypeIdfield" id="field_qrTypeIdfield"
+                    ng-model="vm.qrType.qrTypeIdfield"
+                     />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_qrTypeNamefield">Qr Type Namefield</label>
+            <input type="text" class="form-control" name="qrTypeNamefield" id="field_qrTypeNamefield"
+                    ng-model="vm.qrType.qrTypeNamefield"
+                     />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_qrTypeReptype">Qr Type Reptype</label>
+            <input type="text" class="form-control" name="qrTypeReptype" id="field_qrTypeReptype"
+                    ng-model="vm.qrType.qrTypeReptype"
+                     />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_qrTypeUrl">Qr Type Url</label>
+            <input type="text" class="form-control" name="qrTypeUrl" id="field_qrTypeUrl"
+                    ng-model="vm.qrType.qrTypeUrl"
+                     />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_qrTypeCttime">Qr Type Cttime</label>
+                <div class="input-group">
+                    <input id="field_qrTypeCttime" type="text" class="form-control" name="qrTypeCttime" datetime-picker="{{dateformat}}" ng-model="vm.qrType.qrTypeCttime" is-open="vm.datePickerOpenStatus.qrTypeCttime"
+                      />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="vm.openCalendar('qrTypeCttime')"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_qrTypeStatus">Qr Type Status</label>
+            <input type="text" class="form-control" name="qrTypeStatus" id="field_qrTypeStatus"
+                    ng-model="vm.qrType.qrTypeStatus"
+                     />
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Cancel</span>
+        </button>
+        <button type="submit" ng-disabled="editForm.$invalid || vm.isSaving" class="btn btn-primary">
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span>Save</span>
+        </button>
+    </div>
+</form>

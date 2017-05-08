@@ -1,0 +1,74 @@
+<div>
+    <h2>Qr Types</h2>
+    <jhi-alert></jhi-alert>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-4 no-padding-left">
+                <button class="btn btn-primary" ui-sref="qr-type.new" >
+                    <span class="glyphicon glyphicon-plus"></span>
+                    <span >
+                        Create new Qr Type
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive">
+        <table class="jh-table table table-striped">
+            <thead>
+                <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
+                    <th jh-sort-by="id"><span>ID</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="qrTypeName"><span>Qr Type Name</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="qrTypeTable"><span>Qr Type Table</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="qrTypeIdfield"><span>Qr Type Idfield</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="qrTypeNamefield"><span>Qr Type Namefield</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="qrTypeReptype"><span>Qr Type Reptype</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="qrTypeUrl"><span>Qr Type Url</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="qrTypeCttime"><span>Qr Type Cttime</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="qrTypeStatus"><span>Qr Type Status</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="qrType in vm.qrTypes track by qrType.id">
+                    <td><a ui-sref="qr-type-detail({id:qrType.id})">{{qrType.id}}</a></td>
+                    <td>{{qrType.qrTypeName}}</td>
+                    <td>{{qrType.qrTypeTable}}</td>
+                    <td>{{qrType.qrTypeIdfield}}</td>
+                    <td>{{qrType.qrTypeNamefield}}</td>
+                    <td>{{qrType.qrTypeReptype}}</td>
+                    <td>{{qrType.qrTypeUrl}}</td>
+                    <td>{{qrType.qrTypeCttime | date:'medium'}}</td>
+                    <td>{{qrType.qrTypeStatus}}</td>
+                    <td class="text-right">
+                        <div class="btn-group flex-btn-group-container">
+                            <button type="submit"
+                                    ui-sref="qr-type-detail({id:qrType.id})"
+                                    class="btn btn-info btn-sm">
+                                <span class="glyphicon glyphicon-eye-open"></span>
+                                <span class="hidden-xs hidden-sm"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="qr-type.edit({id:qrType.id})"
+                                    class="btn btn-primary btn-sm">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                                <span class="hidden-xs hidden-sm"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="qr-type.delete({id:qrType.id})"
+                                    class="btn btn-danger btn-sm">
+                                <span class="glyphicon glyphicon-remove-circle"></span>
+                                <span class="hidden-xs hidden-sm"></span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="text-center">
+        <jhi-item-count page="vm.page" total="vm.queryCount" items-per-page="vm.itemsPerPage"></jhi-item-count>
+        <uib-pagination class="pagination-sm" total-items="vm.totalItems" items-per-page="vm.itemsPerPage" ng-model="vm.page" ng-change="vm.transition()"></uib-pagination>
+    </div>
+</div>

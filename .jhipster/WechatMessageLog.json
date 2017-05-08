@@ -1,0 +1,26 @@
+{
+    "fluentMethods": true,
+    "relationships": [],
+    "fields": [
+        {
+            "fieldName": "messageTime",
+            "fieldType": "ZonedDateTime"
+        },
+        {
+            "fieldName": "messageBody",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "messageStatus",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "wechatUser",
+            "fieldType": "String"
+        }
+    ],
+    "dto": "no",
+    "service": "serviceImpl",
+    "entityTableName": "wechat_message_log",
+    "pagination": "pagination"
+}

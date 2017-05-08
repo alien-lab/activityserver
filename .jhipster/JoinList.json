@@ -1,0 +1,57 @@
+{
+    "fluentMethods": true,
+    "relationships": [],
+    "fields": [
+        {
+            "fieldName": "joinName",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "joinTime",
+            "fieldType": "ZonedDateTime"
+        },
+        {
+            "fieldName": "joinOpenid",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "joinPhone",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "joinNick",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "joinIcon",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "joinStatus",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "joinPrice1",
+            "fieldType": "Float"
+        },
+        {
+            "fieldName": "joinPrice2",
+            "fieldType": "Float"
+        },
+        {
+            "fieldName": "joinEntercode",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "activity",
+            "fieldType": "String"
+        }
+    ],
+    "dto": "no",
+    "service": "serviceImpl",
+    "entityTableName": "join_list",
+    "pagination": "pagination"
+}

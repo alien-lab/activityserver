@@ -1,0 +1,48 @@
+
+<form name="editForm" role="form" novalidate ng-submit="vm.save()">
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                ng-click="vm.clear()">&times;</button>
+        <h4 class="modal-title" id="myWechatMaterialLabel">Create or edit a Wechat Material</h4>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" ng-show="vm.wechatMaterial.id">
+            <label for="id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                    ng-model="vm.wechatMaterial.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_btnId">Btn Id</label>
+            <input type="text" class="form-control" name="btnId" id="field_btnId"
+                    ng-model="vm.wechatMaterial.btnId"
+                     />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_mediaId">Media Id</label>
+            <input type="text" class="form-control" name="mediaId" id="field_mediaId"
+                    ng-model="vm.wechatMaterial.mediaId"
+                     />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_craeteTime">Craete Time</label>
+                <div class="input-group">
+                    <input id="field_craeteTime" type="text" class="form-control" name="craeteTime" datetime-picker="{{dateformat}}" ng-model="vm.wechatMaterial.craeteTime" is-open="vm.datePickerOpenStatus.craeteTime"
+                      />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="vm.openCalendar('craeteTime')"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                </div>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Cancel</span>
+        </button>
+        <button type="submit" ng-disabled="editForm.$invalid || vm.isSaving" class="btn btn-primary">
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span>Save</span>
+        </button>
+    </div>
+</form>

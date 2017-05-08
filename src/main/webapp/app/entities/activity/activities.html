@@ -1,0 +1,82 @@
+<div>
+    <h2>Activities</h2>
+    <jhi-alert></jhi-alert>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-4 no-padding-left">
+                <button class="btn btn-primary" ui-sref="activity.new" >
+                    <span class="glyphicon glyphicon-plus"></span>
+                    <span >
+                        Create new Activity
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive">
+        <table class="jh-table table table-striped">
+            <thead>
+                <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
+                    <th jh-sort-by="id"><span>ID</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="actName"><span>Act Name</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="actDate"><span>Act Date</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="actPlayercount"><span>Act Playercount</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="actPrice1"><span>Act Price 1</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="actPrice2"><span>Act Price 2</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="actDesc"><span>Act Desc</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="actContact"><span>Act Contact</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="actContactPhone"><span>Act Contact Phone</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="actStatus"><span>Act Status</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="actImage"><span>Act Image</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="actFlag"><span>Act Flag</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="actQrkey"><span>Act Qrkey</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="activity in vm.activities track by activity.id">
+                    <td><a ui-sref="activity-detail({id:activity.id})">{{activity.id}}</a></td>
+                    <td>{{activity.actName}}</td>
+                    <td>{{activity.actDate | date:'medium'}}</td>
+                    <td>{{activity.actPlayercount}}</td>
+                    <td>{{activity.actPrice1}}</td>
+                    <td>{{activity.actPrice2}}</td>
+                    <td>{{activity.actDesc}}</td>
+                    <td>{{activity.actContact}}</td>
+                    <td>{{activity.actContactPhone}}</td>
+                    <td>{{activity.actStatus}}</td>
+                    <td>{{activity.actImage}}</td>
+                    <td>{{activity.actFlag}}</td>
+                    <td>{{activity.actQrkey}}</td>
+                    <td class="text-right">
+                        <div class="btn-group flex-btn-group-container">
+                            <button type="submit"
+                                    ui-sref="activity-detail({id:activity.id})"
+                                    class="btn btn-info btn-sm">
+                                <span class="glyphicon glyphicon-eye-open"></span>
+                                <span class="hidden-xs hidden-sm"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="activity.edit({id:activity.id})"
+                                    class="btn btn-primary btn-sm">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                                <span class="hidden-xs hidden-sm"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="activity.delete({id:activity.id})"
+                                    class="btn btn-danger btn-sm">
+                                <span class="glyphicon glyphicon-remove-circle"></span>
+                                <span class="hidden-xs hidden-sm"></span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="text-center">
+        <jhi-item-count page="vm.page" total="vm.queryCount" items-per-page="vm.itemsPerPage"></jhi-item-count>
+        <uib-pagination class="pagination-sm" total-items="vm.totalItems" items-per-page="vm.itemsPerPage" ng-model="vm.page" ng-change="vm.transition()"></uib-pagination>
+    </div>
+</div>

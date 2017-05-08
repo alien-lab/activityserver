@@ -1,0 +1,22 @@
+{
+    "fluentMethods": true,
+    "relationships": [],
+    "fields": [
+        {
+            "fieldName": "btnId",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "mediaId",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "craeteTime",
+            "fieldType": "ZonedDateTime"
+        }
+    ],
+    "dto": "no",
+    "service": "serviceImpl",
+    "entityTableName": "wechat_material",
+    "pagination": "pagination"
+}

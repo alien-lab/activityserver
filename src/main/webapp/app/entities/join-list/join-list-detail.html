@@ -1,0 +1,63 @@
+
+<div>
+    <h2><span>Join List</span> {{vm.joinList.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="dl-horizontal jh-entity-details">
+        <dt><span>Join Name</span></dt>
+        <dd>
+            <span>{{vm.joinList.joinName}}</span>
+        </dd>
+        <dt><span>Join Time</span></dt>
+        <dd>
+            <span>{{vm.joinList.joinTime | date:'medium'}}</span>
+        </dd>
+        <dt><span>Join Openid</span></dt>
+        <dd>
+            <span>{{vm.joinList.joinOpenid}}</span>
+        </dd>
+        <dt><span>Join Phone</span></dt>
+        <dd>
+            <span>{{vm.joinList.joinPhone}}</span>
+        </dd>
+        <dt><span>Join Nick</span></dt>
+        <dd>
+            <span>{{vm.joinList.joinNick}}</span>
+        </dd>
+        <dt><span>Join Icon</span></dt>
+        <dd>
+            <span>{{vm.joinList.joinIcon}}</span>
+        </dd>
+        <dt><span>Join Status</span></dt>
+        <dd>
+            <span>{{vm.joinList.joinStatus}}</span>
+        </dd>
+        <dt><span>Join Price 1</span></dt>
+        <dd>
+            <span>{{vm.joinList.joinPrice1}}</span>
+        </dd>
+        <dt><span>Join Price 2</span></dt>
+        <dd>
+            <span>{{vm.joinList.joinPrice2}}</span>
+        </dd>
+        <dt><span>Join Entercode</span></dt>
+        <dd>
+            <span>{{vm.joinList.joinEntercode}}</span>
+        </dd>
+        <dt><span>Activity</span></dt>
+        <dd>
+            <span>{{vm.joinList.activity}}</span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            ui-sref="{{ vm.previousState }}"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span> Back</span>
+    </button>
+
+    <button type="button" ui-sref="join-list-detail.edit({id:vm.joinList.id})" class="btn btn-primary">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-xs hidden-sm"> Edit</span>
+    </button>
+</div>

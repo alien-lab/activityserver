@@ -1,0 +1,47 @@
+
+<div>
+    <h2><span>Wechat User</span> {{vm.wechatUser.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="dl-horizontal jh-entity-details">
+        <dt><span>Wechat Unionid</span></dt>
+        <dd>
+            <span>{{vm.wechatUser.wechatUnionid}}</span>
+        </dd>
+        <dt><span>Wechat Nickname</span></dt>
+        <dd>
+            <span>{{vm.wechatUser.wechatNickname}}</span>
+        </dd>
+        <dt><span>Wechat Image</span></dt>
+        <dd>
+            <span>{{vm.wechatUser.wechatImage}}</span>
+        </dd>
+        <dt><span>Wechat Area</span></dt>
+        <dd>
+            <span>{{vm.wechatUser.wechatArea}}</span>
+        </dd>
+        <dt><span>User Type</span></dt>
+        <dd>
+            <span>{{vm.wechatUser.userType}}</span>
+        </dd>
+        <dt><span>Wechat Openid</span></dt>
+        <dd>
+            <span>{{vm.wechatUser.wechatOpenid}}</span>
+        </dd>
+        <dt><span>Wechat Qrkey</span></dt>
+        <dd>
+            <span>{{vm.wechatUser.wechatQrkey}}</span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            ui-sref="{{ vm.previousState }}"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span> Back</span>
+    </button>
+
+    <button type="button" ui-sref="wechat-user-detail.edit({id:vm.wechatUser.id})" class="btn btn-primary">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-xs hidden-sm"> Edit</span>
+    </button>
+</div>

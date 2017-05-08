@@ -1,0 +1,51 @@
+
+<div>
+    <h2><span>Qr Type</span> {{vm.qrType.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="dl-horizontal jh-entity-details">
+        <dt><span>Qr Type Name</span></dt>
+        <dd>
+            <span>{{vm.qrType.qrTypeName}}</span>
+        </dd>
+        <dt><span>Qr Type Table</span></dt>
+        <dd>
+            <span>{{vm.qrType.qrTypeTable}}</span>
+        </dd>
+        <dt><span>Qr Type Idfield</span></dt>
+        <dd>
+            <span>{{vm.qrType.qrTypeIdfield}}</span>
+        </dd>
+        <dt><span>Qr Type Namefield</span></dt>
+        <dd>
+            <span>{{vm.qrType.qrTypeNamefield}}</span>
+        </dd>
+        <dt><span>Qr Type Reptype</span></dt>
+        <dd>
+            <span>{{vm.qrType.qrTypeReptype}}</span>
+        </dd>
+        <dt><span>Qr Type Url</span></dt>
+        <dd>
+            <span>{{vm.qrType.qrTypeUrl}}</span>
+        </dd>
+        <dt><span>Qr Type Cttime</span></dt>
+        <dd>
+            <span>{{vm.qrType.qrTypeCttime | date:'medium'}}</span>
+        </dd>
+        <dt><span>Qr Type Status</span></dt>
+        <dd>
+            <span>{{vm.qrType.qrTypeStatus}}</span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            ui-sref="{{ vm.previousState }}"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span> Back</span>
+    </button>
+
+    <button type="button" ui-sref="qr-type-detail.edit({id:vm.qrType.id})" class="btn btn-primary">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-xs hidden-sm"> Edit</span>
+    </button>
+</div>

@@ -1,0 +1,67 @@
+{
+    "fluentMethods": true,
+    "relationships": [],
+    "fields": [
+        {
+            "fieldName": "actName",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "actDate",
+            "fieldType": "ZonedDateTime",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "actPlayercount",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "actPrice1",
+            "fieldType": "Float"
+        },
+        {
+            "fieldName": "actPrice2",
+            "fieldType": "Float"
+        },
+        {
+            "fieldName": "actDesc",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "actContact",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "actContactPhone",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "actStatus",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "actImage",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "actFlag",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "actQrkey",
+            "fieldType": "String"
+        }
+    ],
+    "dto": "no",
+    "service": "serviceImpl",
+    "entityTableName": "activity",
+    "pagination": "pagination"
+}

@@ -1,0 +1,67 @@
+
+<div>
+    <h2><span>Activity</span> {{vm.activity.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="dl-horizontal jh-entity-details">
+        <dt><span>Act Name</span></dt>
+        <dd>
+            <span>{{vm.activity.actName}}</span>
+        </dd>
+        <dt><span>Act Date</span></dt>
+        <dd>
+            <span>{{vm.activity.actDate | date:'medium'}}</span>
+        </dd>
+        <dt><span>Act Playercount</span></dt>
+        <dd>
+            <span>{{vm.activity.actPlayercount}}</span>
+        </dd>
+        <dt><span>Act Price 1</span></dt>
+        <dd>
+            <span>{{vm.activity.actPrice1}}</span>
+        </dd>
+        <dt><span>Act Price 2</span></dt>
+        <dd>
+            <span>{{vm.activity.actPrice2}}</span>
+        </dd>
+        <dt><span>Act Desc</span></dt>
+        <dd>
+            <span>{{vm.activity.actDesc}}</span>
+        </dd>
+        <dt><span>Act Contact</span></dt>
+        <dd>
+            <span>{{vm.activity.actContact}}</span>
+        </dd>
+        <dt><span>Act Contact Phone</span></dt>
+        <dd>
+            <span>{{vm.activity.actContactPhone}}</span>
+        </dd>
+        <dt><span>Act Status</span></dt>
+        <dd>
+            <span>{{vm.activity.actStatus}}</span>
+        </dd>
+        <dt><span>Act Image</span></dt>
+        <dd>
+            <span>{{vm.activity.actImage}}</span>
+        </dd>
+        <dt><span>Act Flag</span></dt>
+        <dd>
+            <span>{{vm.activity.actFlag}}</span>
+        </dd>
+        <dt><span>Act Qrkey</span></dt>
+        <dd>
+            <span>{{vm.activity.actQrkey}}</span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            ui-sref="{{ vm.previousState }}"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span> Back</span>
+    </button>
+
+    <button type="button" ui-sref="activity-detail.edit({id:vm.activity.id})" class="btn btn-primary">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-xs hidden-sm"> Edit</span>
+    </button>
+</div>
