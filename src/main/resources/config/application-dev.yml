@@ -39,7 +39,7 @@ spring:
         cache: false
 
 server:
-    port: 8080
+    port: 8082
 
 # ===================================================================
 # JHipster specific properties
@@ -80,11 +80,11 @@ wechat:
     secret: 4ca45ab0eec20b50cf807346c0fccc5d
     token:  alienzoo
     payid:  1247614101
-    paycallback:    http://www.bigercat.com/activitywechat/wxpay
+    paycallback:    http://www.bigercat.com/activityserver/wxpay
     host:
         basepath:   http://www.bigercat.com/activitywechat/
 
 sms:
     appid:  371396650000263720
     appsecret:  f44ace7e6ddb4fdca38d01897b70fd06
-    callback:   http://www.bigercat.com/activitywechat/smsback
+    callback:   http://www.bigercat.com/activityserver/smsback

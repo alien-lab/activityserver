@@ -79,6 +79,13 @@
 
     <dependencies>
         <dependency>
+            <groupId>open189.sign</groupId>
+            <artifactId>open189-sign</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/resources/open189-sign-1.0.jar</systemPath>
+        </dependency>
+        <dependency>
             <groupId>io.dropwizard.metrics</groupId>
             <artifactId>metrics-core</artifactId>
         </dependency>

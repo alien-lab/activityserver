@@ -1,30 +1,35 @@
 package com.alienlab.activityserver.sms.controller;
 
-import com.alienlab.activityserver.sms.service.SmsCode;
-import com.alienlab.activityserver.web.wechat.controller.PayController;
-import org.apache.log4j.Logger;
+import com.alibaba.fastjson.JSONObject;
+import com.alienlab.activityserver.sms.service.SmsService;
+import com.alienlab.activityserver.web.rest.ExecResult;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
-
 /**
- * Created by 橘 on 2017/5/8.
+ * Created by 橘 on 2017/5/9.
  */
 @RestController
+@RequestMapping(value="/api")
 public class SmsController {
-    private static Logger logger = Logger.getLogger(SmsController.class);
-    @PostMapping(value="/smsback")
-    public ResponseEntity smsCallback(HttpServletRequest request) throws UnsupportedEncodingException {
-        request.setCharacterEncoding("UTF-8");
-        String rand_code=request.getParameter("rand_code");
-        String identifier=request.getParameter("identifier");
-        //将验证码存储到Map中。
-        SmsCode.codePool.put(identifier, rand_code);
-        logger.info("验证码为："+rand_code+">>>标识为："+identifier);
-        return ResponseEntity.ok().body("验证码为："+rand_code+">>>标识为："+identifier);
+    @Autowired
+    SmsService smsService;
+    @PostMapping(value="/sendsms")
+    public ResponseEntity sendSMS(@RequestParam String phone){
+        try{
+            String result=smsService.sendSms(phone);
+            JSONObject jresult=JSONObject.parseObject(result);
+            return ResponseEntity.ok().body(jresult);
+        }catch(Exception e){
+            e.printStackTrace();
+            ExecResult er=new ExecResult(false,e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+        }
     }
 }
+

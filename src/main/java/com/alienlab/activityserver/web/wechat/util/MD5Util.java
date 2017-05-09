@@ -71,14 +71,14 @@ public class MD5Util {
         }
     }
 
-    public static void main(String [] args){
-    	SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    	Date dt=Calendar.getInstance().getTime();
-    	System.out.println(dt.getTime()/1000);
-    	System.out.println(new Date().getTime()/1000);
-    	System.out.println(sdf.format(dt));
-    	System.out.println(sdf.format(new Date()));
-
-
-    }
+//    public static void main(String [] args){
+//    	SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//    	Date dt=Calendar.getInstance().getTime();
+//    	System.out.println(dt.getTime()/1000);
+//    	System.out.println(new Date().getTime()/1000);
+//    	System.out.println(sdf.format(dt));
+//    	System.out.println(sdf.format(new Date()));
+//
+//
+//    }
 }
