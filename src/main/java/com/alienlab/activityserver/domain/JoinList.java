@@ -1,7 +1,6 @@
 package com.alienlab.activityserver.domain;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
@@ -53,8 +52,11 @@ public class JoinList implements Serializable {
     @Field("join_entercode")
     private String joinEntercode;
 
-    @DBRef
-    private Activity activity;
+    @Field("activity")
+    private String activity;
+
+    @Field("join_form")
+    private String joinForm;
 
     public String getId() {
         return id;
@@ -194,17 +196,30 @@ public class JoinList implements Serializable {
         this.joinEntercode = joinEntercode;
     }
 
-    public Activity getActivity() {
+    public String getActivity() {
         return activity;
     }
 
-    public JoinList activity(Activity activity) {
+    public JoinList activity(String activity) {
         this.activity = activity;
         return this;
     }
 
-    public void setActivity(Activity activity) {
+    public void setActivity(String activity) {
         this.activity = activity;
+    }
+
+    public String getJoinForm() {
+        return joinForm;
+    }
+
+    public JoinList joinForm(String joinForm) {
+        this.joinForm = joinForm;
+        return this;
+    }
+
+    public void setJoinForm(String joinForm) {
+        this.joinForm = joinForm;
     }
 
     @Override
@@ -242,6 +257,7 @@ public class JoinList implements Serializable {
             ", joinPrice2='" + joinPrice2 + "'" +
             ", joinEntercode='" + joinEntercode + "'" +
             ", activity='" + activity + "'" +
+            ", joinForm='" + joinForm + "'" +
             '}';
     }
 }

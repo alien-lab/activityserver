@@ -1,5 +1,7 @@
 package com.alienlab.activityserver.web.rest;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.codahale.metrics.annotation.Timed;
 import com.alienlab.activityserver.domain.JoinList;
 import com.alienlab.activityserver.service.JoinListService;
@@ -18,8 +20,10 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URLDecoder;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,7 +35,7 @@ import java.util.Optional;
 public class JoinListResource {
 
     private final Logger log = LoggerFactory.getLogger(JoinListResource.class);
-        
+
     @Inject
     private JoinListService joinListService;
 
@@ -53,6 +57,20 @@ public class JoinListResource {
         return ResponseEntity.created(new URI("/api/join-lists/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert("joinList", result.getId().toString()))
             .body(result);
+    }
+
+    @PostMapping("/join-lists/json")
+    @Timed
+    public ResponseEntity createJoinListJson(@RequestParam String joinJson) throws URISyntaxException {
+        log.debug("REST request to save JoinList : {}", joinJson);
+        try {
+            joinJson=URLDecoder.decode(joinJson,"UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        JSONObject join=JSONObject.parseObject(joinJson);
+        return ResponseEntity.ok()
+            .body(join);
     }
 
     /**

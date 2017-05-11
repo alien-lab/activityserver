@@ -126,6 +126,7 @@
                                 joinPrice2: null,
                                 joinEntercode: null,
                                 activity: null,
+                                joinForm: null,
                                 id: null
                             };
                         }

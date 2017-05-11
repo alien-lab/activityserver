@@ -3,7 +3,6 @@ package com.alienlab.activityserver.sms.service;
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
 import com.alienlab.activityserver.web.wechat.bean.AccessToken;
-import com.alienlab.activityserver.web.wechat.controller.PayController;
 import com.alienlab.activityserver.web.wechat.util.HttpInvoker;
 import com.alienlab.activityserver.web.wechat.util.HttpsInvoker;
 import open189.sign.ParamsSign;

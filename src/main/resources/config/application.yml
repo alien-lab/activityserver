@@ -33,6 +33,11 @@ spring:
             enabled: false
     thymeleaf:
         mode: XHTML
+    http:
+        encoding:
+          charset: utf-8
+          enabled: true
+          force: true
 
 security:
     basic:

@@ -48,6 +48,10 @@
         {
             "fieldName": "activity",
             "fieldType": "String"
+        },
+        {
+            "fieldName": "joinForm",
+            "fieldType": "String"
         }
     ],
     "dto": "no",
