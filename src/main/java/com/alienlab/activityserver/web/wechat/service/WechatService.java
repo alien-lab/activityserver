@@ -10,6 +10,7 @@ import com.alienlab.activityserver.web.rest.ExecResult;
 import com.alienlab.activityserver.web.wechat.controller.WeChatController;
 import com.alienlab.activityserver.web.wechat.util.*;
 import org.apache.log4j.Logger;
+import org.jdom2.JDOMException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -20,10 +21,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.inject.Inject;
-import java.util.List;
-import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
+import java.io.IOException;
+import java.util.*;
 
 /**
  * Created by 橘 on 2017/5/8.
@@ -159,6 +158,9 @@ public class WechatService {
             logger.info("/getuserinfo B code is "+code);
             JSONObject resultjo = wechatUtil.get_user_info(jo.getString("access_token"),jo.getString("openid"));
 
+            if(!resultjo.containsKey("openid")){
+                return null;
+            }
             //每调用一次获取身份方法，就更新一次库里的微信用户信息。
             WechatUser user=wechatUserService.findUserByOpenid(resultjo.getString("openid"));
             if(user==null){//如果此用户不存在
@@ -198,7 +200,7 @@ public class WechatService {
 
 
     //统一下单
-    public String makeOrder(String orderName,String orderNo,int money,String cusIp,String openid){
+    public Map<String,String> makeOrder(String orderName,String orderNo,int money,String cusIp,String openid){
         logger.info("正在调用微信下单系统");
         SortedMap<Object,Object> parameters = new TreeMap<Object,Object>();
         parameters.put("appid", wechatappid);
@@ -226,7 +228,31 @@ public class WechatService {
         logger.info("微信支付系统，下单返回内容>>>"+requestXML);
         String result = HttpsInvoker.httpRequestStr("https://api.mch.weixin.qq.com/pay/unifiedorder", "POST", requestXML);
         logger.info("微信支付系统，下单返回内容>>>"+result);
-        return result;
+
+        try {
+            return XMLUtil.doXMLParse(result);
+        } catch (JDOMException e) {
+            e.printStackTrace();
+            return null;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public JSONObject getPayParam(Map<String,String>order){
+        SortedMap<Object,Object> params = new TreeMap<Object,Object>();
+        params.put("appId",wechatappid);
+        params.put("timeStamp", Long.toString(new Date().getTime()/1000));
+        params.put("nonceStr", payCommonUtil.CreateNoncestr());
+        params.put("package", "prepay_id="+order.get("prepay_id"));
+        params.put("signType", "MD5");
+        String paySign =  payCommonUtil.createSign("UTF-8", params);
+        params.put("packageValue", "prepay_id="+order.get("prepay_id"));    //这里用packageValue是预防package是关键字在js获取值出错
+        params.put("paySign", paySign);                                                          //paySign的生成规则和Sign的生成规则一致
+
+        JSONObject json =JSONObject.parseObject(JSONObject.toJSONString(params));
+        return json;
     }
 
 }

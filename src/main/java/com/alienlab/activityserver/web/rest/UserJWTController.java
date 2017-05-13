@@ -30,6 +30,28 @@ public class UserJWTController {
     @Inject
     private AuthenticationManager authenticationManager;
 
+    @PostMapping("/authenticate/client")
+    @Timed
+    public ResponseEntity<?> authorizeClient(@RequestParam String username,@RequestParam String pwd,@RequestParam Boolean rememberMe, HttpServletResponse response) {
+        LoginVM loginVM=new LoginVM();
+        loginVM.setPassword(pwd);
+        loginVM.setRememberMe(true);
+        loginVM.setUsername(username);
+
+        UsernamePasswordAuthenticationToken authenticationToken =
+            new UsernamePasswordAuthenticationToken(loginVM.getUsername(), loginVM.getPassword());
+
+        try {
+            Authentication authentication = this.authenticationManager.authenticate(authenticationToken);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            String jwt = tokenProvider.createToken(authentication, rememberMe);
+            response.addHeader(JWTConfigurer.AUTHORIZATION_HEADER, "Bearer " + jwt);
+            return ResponseEntity.ok(new JWTToken(jwt));
+        } catch (AuthenticationException exception) {
+            return new ResponseEntity<>(Collections.singletonMap("AuthenticationException",exception.getLocalizedMessage()), HttpStatus.UNAUTHORIZED);
+        }
+    }
+
     @PostMapping("/authenticate")
     @Timed
     public ResponseEntity<?> authorize(@Valid @RequestBody LoginVM loginVM, HttpServletResponse response) {

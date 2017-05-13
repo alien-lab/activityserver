@@ -1,7 +1,11 @@
 package com.alienlab.activityserver.web.rest;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.alienlab.activityserver.domain.Activity;
+import com.alienlab.activityserver.service.ActivityService;
+import com.alienlab.activityserver.sms.service.SmsService;
+import com.alienlab.activityserver.web.wechat.service.WechatService;
+import com.alienlab.activityserver.web.wechat.util.PayCommonUtil;
 import com.codahale.metrics.annotation.Timed;
 import com.alienlab.activityserver.domain.JoinList;
 import com.alienlab.activityserver.service.JoinListService;
@@ -11,6 +15,7 @@ import com.alienlab.activityserver.web.rest.util.PaginationUtil;
 import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -19,13 +24,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URLDecoder;
-import java.util.List;
-import java.util.Optional;
+import java.time.ZonedDateTime;
+import java.util.*;
 
 /**
  * REST controller for managing JoinList.
@@ -59,19 +63,72 @@ public class JoinListResource {
             .body(result);
     }
 
+    @Autowired
+    SmsService smsService;
+    @Autowired
+    ActivityService activityService;
+    @Autowired
+    WechatService wechatService;
+
     @PostMapping("/join-lists/json")
     @Timed
-    public ResponseEntity createJoinListJson(@RequestParam String joinJson) throws URISyntaxException {
+    public ResponseEntity createJoinListJson(@RequestParam String joinJson, HttpServletRequest request) throws URISyntaxException {
         log.debug("REST request to save JoinList : {}", joinJson);
-        try {
-            joinJson=URLDecoder.decode(joinJson,"UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
         JSONObject join=JSONObject.parseObject(joinJson);
-        return ResponseEntity.ok()
-            .body(join);
+        String smsid=join.getString("smsid");
+        String phonecode=join.getString("phonecode");
+        boolean codeflag=smsService.validateCode(smsid,phonecode);
+        if(!codeflag){ //短信验证码错误
+            ExecResult er=new ExecResult(false,"短信验证码错误");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+        }
+        JoinList joinList=new JoinList();
+        String actFlag=join.getString("actFlag");
+        joinList.setActivity(actFlag);
+        joinList.setJoinForm(joinJson);
+        joinList.setJoinIcon(join.getString("icon"));
+        joinList.setJoinName(join.getString("parentName"));
+        joinList.setJoinNick(join.getString("nickname"));
+        joinList.setJoinOpenid(join.getString("openid"));
+        joinList.setJoinPhone(join.getString("phone"));
+        joinList.setJoinStatus("审核中");
+        joinList.setJoinTime(ZonedDateTime.now());
+        Activity act=activityService.findByFlag(actFlag);
+        if(act==null){
+            ExecResult er=new ExecResult(false,"您报名的活动不存在。");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+        }
+        String orderno= UUID.randomUUID().toString().replaceAll("-","");
+
+        //微信下单支付
+        Map<String,String> orderResult=wechatService.makeOrder(act.getActName(),orderno,act.getActPrice1().intValue(),request.getRemoteAddr(),joinList.getJoinOpenid());
+
+        if(orderResult==null){
+            ExecResult er=new ExecResult(false,"调用微信支付失败。");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+        }
+        String orderflag=orderResult.get("return_code");
+        String resultcode=orderResult.get("result_code");
+        if(orderflag.equalsIgnoreCase("SUCCESS")){
+            if(resultcode.equalsIgnoreCase("SUCCESS")){//订单创建成功
+                //保存joinlist
+                joinList.setOrderNo(orderno);
+                joinList=joinListService.save(joinList);
+                JSONObject result=new JSONObject();
+                result.put("joinList",joinList);
+                result.put("orderInfo",wechatService.getPayParam(orderResult));
+                return ResponseEntity.ok().body(result);
+            }else{ //如果下单出现错误，返回错误信息到页面
+                ExecResult er=new ExecResult(false,orderResult.get("err_code_des"));
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+            }
+        }else{ //如果获取订单错误，返回错误信息到页面
+            ExecResult er=new ExecResult(false,orderResult.get("return_msg"));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+        }
     }
+
+
 
     /**
      * PUT  /join-lists : Updates an existing joinList.

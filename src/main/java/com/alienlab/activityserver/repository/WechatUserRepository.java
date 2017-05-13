@@ -9,5 +9,5 @@ import org.springframework.data.mongodb.repository.MongoRepository;
  */
 @SuppressWarnings("unused")
 public interface WechatUserRepository extends MongoRepository<WechatUser,String> {
-
+    WechatUser findWechatUserByWechatOpenid(String openid);
 }

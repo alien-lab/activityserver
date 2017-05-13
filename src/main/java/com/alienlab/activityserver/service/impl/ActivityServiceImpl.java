@@ -19,7 +19,7 @@ import java.util.List;
 public class ActivityServiceImpl implements ActivityService{
 
     private final Logger log = LoggerFactory.getLogger(ActivityServiceImpl.class);
-    
+
     @Inject
     private ActivityRepository activityRepository;
 
@@ -37,7 +37,7 @@ public class ActivityServiceImpl implements ActivityService{
 
     /**
      *  Get all the activities.
-     *  
+     *
      *  @param pageable the pagination information
      *  @return the list of entities
      */
@@ -67,5 +67,10 @@ public class ActivityServiceImpl implements ActivityService{
     public void delete(String id) {
         log.debug("Request to delete Activity : {}", id);
         activityRepository.delete(id);
+    }
+
+    @Override
+    public Activity findByFlag(String flag) {
+        return activityRepository.findActivityByActFlag(flag);
     }
 }

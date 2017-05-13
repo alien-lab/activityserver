@@ -9,5 +9,5 @@ import org.springframework.data.mongodb.repository.MongoRepository;
  */
 @SuppressWarnings("unused")
 public interface ActivityRepository extends MongoRepository<Activity,String> {
-
+    Activity findActivityByActFlag(String flag);
 }

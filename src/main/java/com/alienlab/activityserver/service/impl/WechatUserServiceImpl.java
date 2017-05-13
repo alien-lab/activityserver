@@ -72,6 +72,6 @@ public class WechatUserServiceImpl implements WechatUserService{
 
     @Override
     public WechatUser findUserByOpenid(String openid) {
-        return null;
+        return wechatUserRepository.findWechatUserByWechatOpenid(openid);
     }
 }

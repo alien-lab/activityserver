@@ -127,6 +127,7 @@
                                 joinEntercode: null,
                                 activity: null,
                                 joinForm: null,
+                                orderNo: null,
                                 id: null
                             };
                         }

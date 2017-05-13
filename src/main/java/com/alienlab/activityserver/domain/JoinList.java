@@ -58,6 +58,9 @@ public class JoinList implements Serializable {
     @Field("join_form")
     private String joinForm;
 
+    @Field("order_no")
+    private String orderNo;
+
     public String getId() {
         return id;
     }
@@ -222,6 +225,19 @@ public class JoinList implements Serializable {
         this.joinForm = joinForm;
     }
 
+    public String getOrderNo() {
+        return orderNo;
+    }
+
+    public JoinList orderNo(String orderNo) {
+        this.orderNo = orderNo;
+        return this;
+    }
+
+    public void setOrderNo(String orderNo) {
+        this.orderNo = orderNo;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -258,6 +274,7 @@ public class JoinList implements Serializable {
             ", joinEntercode='" + joinEntercode + "'" +
             ", activity='" + activity + "'" +
             ", joinForm='" + joinForm + "'" +
+            ", orderNo='" + orderNo + "'" +
             '}';
     }
 }

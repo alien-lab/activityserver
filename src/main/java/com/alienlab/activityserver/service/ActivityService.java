@@ -20,7 +20,7 @@ public interface ActivityService {
 
     /**
      *  Get all the activities.
-     *  
+     *
      *  @param pageable the pagination information
      *  @return the list of entities
      */
@@ -40,4 +40,6 @@ public interface ActivityService {
      *  @param id the id of the entity
      */
     void delete(String id);
+
+    Activity findByFlag(String flag);
 }

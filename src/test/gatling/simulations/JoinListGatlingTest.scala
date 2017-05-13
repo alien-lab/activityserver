@@ -68,7 +68,7 @@ class JoinListGatlingTest extends Simulation {
             .exec(http("Create new joinList")
             .post("/api/join-lists")
             .headers(headers_http_authenticated)
-            .body(StringBody("""{"id":null, "joinName":"SAMPLE_TEXT", "joinTime":"2020-01-01T00:00:00.000Z", "joinOpenid":"SAMPLE_TEXT", "joinPhone":"SAMPLE_TEXT", "joinNick":"SAMPLE_TEXT", "joinIcon":"SAMPLE_TEXT", "joinStatus":"SAMPLE_TEXT", "joinPrice1":null, "joinPrice2":null, "joinEntercode":"SAMPLE_TEXT", "activity":"SAMPLE_TEXT", "joinForm":"SAMPLE_TEXT"}""")).asJSON
+            .body(StringBody("""{"id":null, "joinName":"SAMPLE_TEXT", "joinTime":"2020-01-01T00:00:00.000Z", "joinOpenid":"SAMPLE_TEXT", "joinPhone":"SAMPLE_TEXT", "joinNick":"SAMPLE_TEXT", "joinIcon":"SAMPLE_TEXT", "joinStatus":"SAMPLE_TEXT", "joinPrice1":null, "joinPrice2":null, "joinEntercode":"SAMPLE_TEXT", "activity":"SAMPLE_TEXT", "joinForm":"SAMPLE_TEXT", "orderNo":"SAMPLE_TEXT"}""")).asJSON
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_joinList_url"))).exitHereIfFailed
             .pause(10)
