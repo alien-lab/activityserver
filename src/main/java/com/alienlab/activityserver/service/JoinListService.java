@@ -20,7 +20,7 @@ public interface JoinListService {
 
     /**
      *  Get all the joinLists.
-     *  
+     *
      *  @param pageable the pagination information
      *  @return the list of entities
      */
@@ -40,4 +40,9 @@ public interface JoinListService {
      *  @param id the id of the entity
      */
     void delete(String id);
+
+    JoinList findJoinByOpenidAndOrderno(String openid,String orderNo);
+    List<JoinList> findListsByOpenid(String openid);
+
+
 }

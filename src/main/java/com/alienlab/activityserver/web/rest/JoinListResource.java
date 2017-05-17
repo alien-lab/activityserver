@@ -1,8 +1,10 @@
 package com.alienlab.activityserver.web.rest;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alienlab.activityserver.domain.Activity;
 import com.alienlab.activityserver.service.ActivityService;
+import com.alienlab.activityserver.service.WechatMessageService;
 import com.alienlab.activityserver.sms.service.SmsService;
 import com.alienlab.activityserver.web.wechat.service.WechatService;
 import com.alienlab.activityserver.web.wechat.util.PayCommonUtil;
@@ -26,6 +28,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import javax.xml.ws.Response;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.ZonedDateTime;
@@ -75,14 +78,25 @@ public class JoinListResource {
     public ResponseEntity createJoinListJson(@RequestParam String joinJson, HttpServletRequest request) throws URISyntaxException {
         log.debug("REST request to save JoinList : {}", joinJson);
         JSONObject join=JSONObject.parseObject(joinJson);
-        String smsid=join.getString("smsid");
-        String phonecode=join.getString("phonecode");
-        boolean codeflag=smsService.validateCode(smsid,phonecode);
-        if(!codeflag){ //短信验证码错误
-            ExecResult er=new ExecResult(false,"短信验证码错误");
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+//        String smsid=join.getString("smsid");
+//        String phonecode=join.getString("phonecode");
+//        boolean codeflag=smsService.validateCode(smsid,phonecode);
+//        if(!codeflag){ //短信验证码错误
+//            ExecResult er=new ExecResult(false,"短信验证码错误");
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+//        }
+        List<JoinList> joinLists=joinListService.findListsByOpenid(join.getString("openid"));
+        JoinList joinList=null;
+        if(joinLists!=null&&joinLists.size()>0){
+            joinList=joinLists.get(0);
+            if(joinList.getJoinStatus().equals("报名费用已交-审核中")){
+                ExecResult er=new ExecResult(false,"您的报名已支付，无需重复支付。");
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+            }
+        }else{
+            joinList=new JoinList();
         }
-        JoinList joinList=new JoinList();
+
         String actFlag=join.getString("actFlag");
         joinList.setActivity(actFlag);
         joinList.setJoinForm(joinJson);
@@ -91,7 +105,7 @@ public class JoinListResource {
         joinList.setJoinNick(join.getString("nickname"));
         joinList.setJoinOpenid(join.getString("openid"));
         joinList.setJoinPhone(join.getString("phone"));
-        joinList.setJoinStatus("审核中");
+        joinList.setJoinStatus("报名费用未交");
         joinList.setJoinTime(ZonedDateTime.now());
         Activity act=activityService.findByFlag(actFlag);
         if(act==null){
@@ -113,10 +127,13 @@ public class JoinListResource {
             if(resultcode.equalsIgnoreCase("SUCCESS")){//订单创建成功
                 //保存joinlist
                 joinList.setOrderNo(orderno);
+                JSONObject orderInfo=wechatService.getPayParam(orderResult);
+                joinList.setOrderInfo(orderInfo.toJSONString());
                 joinList=joinListService.save(joinList);
                 JSONObject result=new JSONObject();
                 result.put("joinList",joinList);
-                result.put("orderInfo",wechatService.getPayParam(orderResult));
+
+                result.put("orderInfo",orderInfo);
                 return ResponseEntity.ok().body(result);
             }else{ //如果下单出现错误，返回错误信息到页面
                 ExecResult er=new ExecResult(false,orderResult.get("err_code_des"));
@@ -128,6 +145,46 @@ public class JoinListResource {
         }
     }
 
+    @Autowired
+    WechatMessageService wechatMessageService;
+
+    @PostMapping("/join-lists/joinpay")
+    @Timed
+    public ResponseEntity joinPay(String openid,String orderNo) throws URISyntaxException {
+        JoinList joinList=joinListService.findJoinByOpenidAndOrderno(openid,orderNo);
+        if(joinList==null){
+            ExecResult er=new ExecResult(false,"未查询到您的报名信息");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+        }
+        Map<String,String> orderinfo=wechatService.getOrder(orderNo);
+        log.info("joinpay>>>"+ JSON.toJSONString(orderinfo));
+        if(orderinfo==null){
+            ExecResult er=new ExecResult(false,"获取订单信息出错");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+        }
+        String returncode=orderinfo.get("return_code");
+        String resultcode=orderinfo.get("result_code");
+        if(orderinfo.containsKey("trade_state")){
+            String tradestatus=orderinfo.get("trade_state");
+            if(tradestatus.equalsIgnoreCase("SUCCESS")){
+                joinList.setPayTime1(ZonedDateTime.now());
+                joinList.setJoinStatus("报名费用已交-审核中");
+                joinList=joinListService.save(joinList);
+                //发送微信消息推送
+                wechatMessageService.sendJoinApplication(joinList);
+
+                return ResponseEntity.ok().body(joinList);
+            }else{
+                ExecResult er=new ExecResult(false,"微信支付未成功，支付状态："+tradestatus);
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+            }
+        }else{
+            ExecResult er=new ExecResult(false,"微信订单数据获取失败");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
+        }
+
+
+    }
 
 
     /**
@@ -167,6 +224,13 @@ public class JoinListResource {
         Page<JoinList> page = joinListService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/join-lists");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
+    @GetMapping("/join-lists/json/{openid}")
+    @Timed
+    public ResponseEntity getJoinListJson(@PathVariable String openid) {
+        List<JoinList> joinLists = joinListService.findListsByOpenid(openid);
+        return ResponseEntity.ok().body(joinLists);
     }
 
     /**

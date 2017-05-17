@@ -19,7 +19,7 @@ spring:
             enabled: false
     data:
         mongodb:
-            uri: mongodb://www.bigercat.com:22177
+            uri: mongodb://www.bigercat.com:27017
             database: alienlab_activityserver
             username: admin
             password: admin123!

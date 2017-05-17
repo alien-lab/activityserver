@@ -255,4 +255,28 @@ public class WechatService {
         return json;
     }
 
+    public Map<String,String> getOrder(String orderNo){
+        SortedMap<Object,Object> parameters = new TreeMap<Object,Object>();
+        parameters.put("appid", wechatappid);
+        parameters.put("mch_id", wechatpayid);
+        parameters.put("out_trade_no", orderNo);
+        parameters.put("nonce_str", payCommonUtil.CreateNoncestr());
+        String sign = payCommonUtil.createSign("UTF-8", parameters);
+        parameters.put("sign", sign);
+        String requestXML = payCommonUtil.getRequestXml(parameters);
+
+        logger.info("get order info>>>"+requestXML);
+        String result = HttpsInvoker.httpRequestStr("https://api.mch.weixin.qq.com/pay/orderquery", "POST", requestXML);
+
+        try {
+            return XMLUtil.doXMLParse(result);
+        } catch (JDOMException e) {
+            e.printStackTrace();
+            return null;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 }

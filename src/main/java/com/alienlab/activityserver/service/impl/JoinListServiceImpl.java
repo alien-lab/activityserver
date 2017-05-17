@@ -19,7 +19,7 @@ import java.util.List;
 public class JoinListServiceImpl implements JoinListService{
 
     private final Logger log = LoggerFactory.getLogger(JoinListServiceImpl.class);
-    
+
     @Inject
     private JoinListRepository joinListRepository;
 
@@ -37,7 +37,7 @@ public class JoinListServiceImpl implements JoinListService{
 
     /**
      *  Get all the joinLists.
-     *  
+     *
      *  @param pageable the pagination information
      *  @return the list of entities
      */
@@ -67,5 +67,15 @@ public class JoinListServiceImpl implements JoinListService{
     public void delete(String id) {
         log.debug("Request to delete JoinList : {}", id);
         joinListRepository.delete(id);
+    }
+
+    @Override
+    public JoinList findJoinByOpenidAndOrderno(String openid, String orderNo) {
+        return joinListRepository.findJoinListByJoinOpenidAndOrderNo(openid,orderNo);
+    }
+
+    @Override
+    public List<JoinList> findListsByOpenid(String openid) {
+        return joinListRepository.findJoinListsByJoinOpenid(openid);
     }
 }

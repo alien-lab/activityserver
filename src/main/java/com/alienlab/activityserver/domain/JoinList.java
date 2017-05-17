@@ -46,6 +46,18 @@ public class JoinList implements Serializable {
     @Field("join_price_1")
     private Float joinPrice1;
 
+    @Field("pay_time1")
+    private ZonedDateTime payTime1;
+
+    @Field("pay_time2")
+    private ZonedDateTime payTime2;
+
+    @Field("pass_time")
+    private ZonedDateTime passTime;
+
+    @Field("confirm_time")
+    private ZonedDateTime confirmTime;
+
     @Field("join_price_2")
     private Float joinPrice2;
 
@@ -57,6 +69,8 @@ public class JoinList implements Serializable {
 
     @Field("join_form")
     private String joinForm;
+    @Field("order_info")
+    private String orderInfo;
 
     @Field("order_no")
     private String orderNo;
@@ -251,6 +265,46 @@ public class JoinList implements Serializable {
             return false;
         }
         return Objects.equals(id, joinList.id);
+    }
+
+    public ZonedDateTime getPayTime1() {
+        return payTime1;
+    }
+
+    public void setPayTime1(ZonedDateTime payTime1) {
+        this.payTime1 = payTime1;
+    }
+
+    public ZonedDateTime getPayTime2() {
+        return payTime2;
+    }
+
+    public void setPayTime2(ZonedDateTime payTime2) {
+        this.payTime2 = payTime2;
+    }
+
+    public ZonedDateTime getPassTime() {
+        return passTime;
+    }
+
+    public void setPassTime(ZonedDateTime passTime) {
+        this.passTime = passTime;
+    }
+
+    public ZonedDateTime getConfirmTime() {
+        return confirmTime;
+    }
+
+    public void setConfirmTime(ZonedDateTime confirmTime) {
+        this.confirmTime = confirmTime;
+    }
+
+    public String getOrderInfo() {
+        return orderInfo;
+    }
+
+    public void setOrderInfo(String orderInfo) {
+        this.orderInfo = orderInfo;
     }
 
     @Override
