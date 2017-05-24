@@ -24,7 +24,9 @@ spring:
         serialization.indent_output: true
     data:
         mongodb:
-            uri: mongodb://localhost:27017
+            host: www.bigercat.com
+            port: 27017
+            uri: mongodb://admin:admin123@www.bigercat.com:27017/alienlab_activityserver
             database: alienlab_activityserver
             username: admin
             password: admin123!
